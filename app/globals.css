@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #181715;
+  --brand-yellow: #facc15;
+  --brand-yellow-deep: #eab308;
+  --brand-cream: #fffcf0;
+  --brand-card: #faf8f2;
+  --brand-dark: #1d1c1a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-yellow: #facc15;
+  --color-brand-yellow-deep: #eab308;
+  --color-brand-cream: #fffcf0;
+  --color-brand-card: #faf8f2;
+  --color-brand-dark: #1d1c1a;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-devanagari: var(--font-devanagari), var(--font-jakarta), sans-serif;
+  --font-handwritten: var(--font-kalam), cursive;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Signature yellow brushstroke highlight behind Marathi tagline */
+.marathi-brush {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  padding: 0.2rem 1.25rem 0.25rem 0.85rem;
+}
+
+.marathi-brush::before {
+  content: "";
+  position: absolute;
+  inset: 0.08rem -0.25rem 0.02rem -0.3rem;
+  z-index: -1;
+  background: linear-gradient(95deg, #fde047 0%, #facc15 65%, #f5c518 100%);
+  border-radius: 14px 28px 10px 24px / 18px 8px 20px 10px;
+  transform: rotate(-0.8deg);
+  box-shadow: 0 3px 12px rgba(250, 204, 21, 0.28);
+}
+
+/* Short golden underline beneath section headings */
+.section-heading {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.55rem;
+}
+
+.section-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 68px;
+  height: 4px;
+  border-radius: 9999px;
+  background: #facc15;
+}
+
+/* Warm banner gradient matching mockups */
+.warm-banner-gradient {
+  background: linear-gradient(
+    115deg,
+    #fff9e0 0%,
+    #fff4c2 45%,
+    #ffefad 100%
+  );
+}
+
+.lucky-banner-gradient {
+  background: linear-gradient(
+    100deg,
+    #fff9de 0%,
+    #fffdf5 48%,
+    #fef3be 100%
+  );
+}
+
+/* Subtle paper/warm glow radial backdrop */
+.hero-sun-glow {
+  background: radial-gradient(
+    circle at center,
+    rgba(253, 224, 71, 0.42) 0%,
+    rgba(254, 240, 138, 0.25) 48%,
+    rgba(255, 255, 255, 0) 74%
+  );
+}
