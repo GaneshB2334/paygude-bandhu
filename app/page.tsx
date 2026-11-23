@@ -9,7 +9,7 @@ import {
   Star,
   Bike,
 } from "lucide-react";
-import { BESTSELLERS, BRANCHES, BRAND } from "@/lib/data";
+import { BESTSELLERS, BRANCHES, BRAND, KITCHEN_GALLERY } from "@/lib/data";
 import { HeroArtwork } from "@/components/HeroArtwork";
 import { DubaiLuckyDrawBanner } from "@/components/DubaiLuckyDrawBanner";
 import { FranchiseBanner } from "@/components/FranchiseBanner";
@@ -36,6 +36,8 @@ const WHY_LOVE_US = [
     description: "Freshly prepared, served with a smile",
   },
 ] as const;
+
+const HOME_KITCHEN_SPOTLIGHT = KITCHEN_GALLERY.slice(0, 6);
 
 export default function HomePage() {
   return (
@@ -68,7 +70,7 @@ export default function HomePage() {
                 A true Pune experience!
               </p>
 
-              {/* CTA Pill Buttons matching Screenshot 2 */}
+              {/* CTA Pill Buttons */}
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
                 <Link
                   href="/menu"
@@ -120,10 +122,14 @@ export default function HomePage() {
             <Link
               key={item.id}
               href="/menu"
-              className="group rounded-[22px] bg-[#FAF8F2] border border-stone-100/90 hover:border-[#FACC15] hover:shadow-[0_12px_28px_rgba(250,204,21,0.2)] transition-all p-4 sm:p-5 text-center flex flex-col items-center"
+              className="group relative rounded-[22px] bg-[#FAF8F2] border border-stone-100/90 hover:border-[#FACC15] hover:shadow-[0_12px_28px_rgba(250,204,21,0.2)] transition-all p-4 sm:p-5 text-center flex flex-col items-center"
             >
+              <span className="absolute right-3 top-3 rounded-full bg-white border border-amber-200 px-2.5 py-0.5 text-xs font-extrabold text-[#111111]">
+                ₹{item.price}
+              </span>
+
               {/* Yellow Circular Halo + Transparent Dish Cutout */}
-              <div className="relative w-full aspect-[4/3] flex items-center justify-center mb-3">
+              <div className="relative w-full aspect-[4/3] flex items-center justify-center mb-3 mt-1">
                 <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-[#FACC15] transition-transform duration-300 group-hover:scale-105" />
                 <div className="absolute inset-0 p-1">
                   <Image
@@ -142,6 +148,50 @@ export default function HomePage() {
               <p className="mt-1 text-xs sm:text-sm text-stone-600 leading-snug max-w-[190px]">
                 {item.description}
               </p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* REAL KITCHEN SPECIALITIES SHOWCASE */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
+          <div>
+            <h2 className="section-heading text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">
+              Fresh From Our Kitchen
+            </h2>
+          </div>
+          <Link
+            href="/menu"
+            className="inline-flex items-center gap-1.5 text-sm sm:text-[15px] font-bold text-[#181715] hover:text-amber-600 transition-colors"
+          >
+            <span>See Official Rate Card</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
+          {HOME_KITCHEN_SPOTLIGHT.map((dish) => (
+            <Link
+              key={dish.id}
+              href="/menu"
+              className="group relative overflow-hidden rounded-2xl bg-[#181715] aspect-[4/5] shadow-xs border border-stone-200/70"
+            >
+              <Image
+                src={dish.image}
+                alt={`${dish.title} (${dish.marathiTitle})`}
+                fill
+                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 190px"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-3 pt-9">
+                <p className="text-[11px] font-bold text-[#FACC15] font-[family-name:var(--font-devanagari)] leading-tight">
+                  {dish.marathiTitle}
+                </p>
+                <p className="text-xs sm:text-sm font-extrabold text-white leading-snug mt-0.5">
+                  {dish.title}
+                </p>
+              </div>
             </Link>
           ))}
         </div>

@@ -13,22 +13,34 @@ export interface Branch {
   popularFor: string;
 }
 
+export type MenuCategory =
+  | "Chaha & Coffee"
+  | "Breakfast & Snacks"
+  | "Idli & Vada"
+  | "Dosa & Uttappa"
+  | "Pav Bhaji & Extras";
+
 export interface MenuItem {
   id: string;
   name: string;
-  marathiName?: string;
+  marathiName: string;
   description: string;
   price: number;
-  category:
-    | "Chaha & Beverages"
-    | "Morning Breakfast"
-    | "Maharashtrian Snacks"
-    | "South Indian"
-    | "Special Combos";
+  category: MenuCategory;
   image?: string;
+  imageStyle?: "photo" | "cutout";
   bestseller?: boolean;
   tag?: string;
   spicyLevel?: "Mild" | "Medium" | "Spicy";
+}
+
+export interface KitchenPhoto {
+  id: string;
+  title: string;
+  marathiTitle: string;
+  subtitle: string;
+  image: string;
+  category: MenuCategory | "Kitchen Special";
 }
 
 export interface Testimonial {
@@ -76,7 +88,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Abhiruchi+Mall+Sinhagad+Road+Pune",
     mapX: 112,
     mapY: 162,
-    popularFor: "Special Cutting Chaha & Kanda Pohe",
+    popularFor: "Chaha, Ghee Podi Idli, Cut Dosa & Pohe",
   },
   {
     id: "karvenagar",
@@ -92,7 +104,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Karvenagar+Pune",
     mapX: 126,
     mapY: 112,
-    popularFor: "Crispy Vada Pav & Adrak Chaha",
+    popularFor: "Crispy Vada Pav, Pohe & Signature Chaha",
   },
   {
     id: "dhayari",
@@ -108,7 +120,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Dhayari+Pune",
     mapX: 142,
     mapY: 205,
-    popularFor: "Pune Misal Pav & Ghee Idli",
+    popularFor: "Misal, Ghee Idli Sambar & Pav Bhaji",
   },
   {
     id: "deccan",
@@ -124,7 +136,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Deccan+Gymkhana+Pune",
     mapX: 180,
     mapY: 96,
-    popularFor: "Bun Maska, Filter Coffee & Cutting Chaha",
+    popularFor: "Chaha, Hot Coffee, Cut Dosa & Ghee Thatte Idli",
   },
   {
     id: "shastri-road",
@@ -140,7 +152,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Shastri+Road+Pune",
     mapX: 196,
     mapY: 132,
-    popularFor: "Morning Pohe, Sabudana Vada & Chaha",
+    popularFor: "Pohe, Ghee Idli Sambar, Meduvada & Chaha",
   },
   {
     id: "ambegaon-pathar",
@@ -156,7 +168,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Ambegaon+Pathar+Pune",
     mapX: 192,
     mapY: 218,
-    popularFor: "Hot Vada Pav & Special Masala Chaha",
+    popularFor: "Hot Vada Pav, Patties & Special Chaha",
   },
   {
     id: "bharati-vidyapeeth",
@@ -172,7 +184,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Bharati+Vidyapeeth+Pune",
     mapX: 230,
     mapY: 202,
-    popularFor: "Student Combos, Cold Coffee & Vada Pav",
+    popularFor: "Cold Coffee, Masala Dosa, Misal & Vada Pav",
   },
   {
     id: "bibwewadi",
@@ -188,7 +200,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Bibwewadi+Pune",
     mapX: 266,
     mapY: 162,
-    popularFor: "Ghee Idli, Masala Dosa & Cutting Chaha",
+    popularFor: "Ghee Thatte Idli, Tomato Onion Uttappa & Chaha",
   },
   {
     id: "warje",
@@ -204,7 +216,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Warje+Pune",
     mapX: 84,
     mapY: 132,
-    popularFor: "Kanda Pohe, Kanda Bhaji & Elaichi Chaha",
+    popularFor: "Pohe, Upma-Sheera Mix & Hot Chaha",
   },
   {
     id: "lohgaon-dhanori-road",
@@ -220,7 +232,7 @@ export const BRANCHES: Branch[] = [
       "https://www.google.com/maps/search/?api=1&query=Paygude+Bandhu+Lohgaon+Dhanori+Road+Pune",
     mapX: 274,
     mapY: 74,
-    popularFor: "Full Breakfast Platter & Signature Chaha",
+    popularFor: "Full Breakfast Platter, Pav Bhaji & Signature Chaha",
   },
 ];
 
@@ -228,13 +240,15 @@ export const BESTSELLERS = [
   {
     id: "pohe",
     name: "Pohe",
+    marathiName: "पोहे",
     description: "Maharashtrian classic with authentic taste",
     image: "/images/food-pohe.png",
-    price: 30,
+    price: 25,
   },
   {
     id: "vada-pav",
     name: "Vada Pav",
+    marathiName: "वडा पाव",
     description: "Pune's all time favourite",
     image: "/images/food-vadapav.png",
     price: 20,
@@ -242,312 +256,565 @@ export const BESTSELLERS = [
   {
     id: "ghee-idli",
     name: "Ghee Idli",
+    marathiName: "घी इडली सांबर",
     description: "Soft. Healthy. Simply Delicious.",
     image: "/images/food-ghee-idli.png",
-    price: 50,
+    price: 15,
   },
   {
     id: "chaha",
     name: "Chaha",
+    marathiName: "चहा",
     description: "Strong brewing, stronger bonds.",
     image: "/images/food-chaha.png",
     price: 15,
   },
 ] as const;
 
-export const MENU_CATEGORIES = [
+export const MENU_CATEGORIES: ReadonlyArray<"All" | MenuCategory> = [
   "All",
-  "Chaha & Beverages",
-  "Morning Breakfast",
-  "Maharashtrian Snacks",
-  "South Indian",
-  "Special Combos",
+  "Chaha & Coffee",
+  "Breakfast & Snacks",
+  "Idli & Vada",
+  "Dosa & Uttappa",
+  "Pav Bhaji & Extras",
 ] as const;
 
+export const CATEGORY_MARATHI_LABELS: Record<MenuCategory, string> = {
+  "Chaha & Coffee": "चहा आणि कॉफी",
+  "Breakfast & Snacks": "नाश्ता आणि स्नॅक्स",
+  "Idli & Vada": "घी इडली आणि वडा",
+  "Dosa & Uttappa": "डोसा आणि उत्तप्पा",
+  "Pav Bhaji & Extras": "पाव भाजी आणि एक्स्ट्रा",
+};
+
+/**
+ * Official Paygude Bandhu Menu (Abhiruchi & Shastri Road Rate Cards)
+ */
 export const FULL_MENU: MenuItem[] = [
-  // Chaha & Beverages
+  // 1. Chaha & Coffee (चहा आणि कॉफी)
   {
-    id: "signature-cutting-chaha",
-    name: "Signature Cutting Chaha",
-    marathiName: "स्पेशल कटिंग चहा",
+    id: "chaha",
+    name: "Chaha",
+    marathiName: "चहा",
     description:
-      "Strong Assam tea slow-brewed with fresh ginger, green cardamom & rich creamy milk.",
+      "Paygude Bandhu's signature strong brewed Pune chaha — rich, aromatic & freshly poured.",
     price: 15,
-    category: "Chaha & Beverages",
+    category: "Chaha & Coffee",
     image: "/images/food-chaha.png",
+    imageStyle: "cutout",
     bestseller: true,
     tag: "House Signature",
   },
   {
-    id: "adrak-elaichi-chaha",
-    name: "Full Adrak Elaichi Chaha",
-    marathiName: "आलं वेलची चहा",
+    id: "hot-coffee",
+    name: "Hot Coffee",
+    marathiName: "हॉट कॉफी",
     description:
-      "Full glass of aromatic hand-pounded ginger and cardamom spiced Pune chai.",
-    price: 20,
-    category: "Chaha & Beverages",
-    image: "/images/food-chaha.png",
-    tag: "Punekar Choice",
-  },
-  {
-    id: "gud-chaha",
-    name: "Organic Gud (Jaggery) Chaha",
-    marathiName: "गुळाचा चहा",
-    description:
-      "Naturally sweetened with pure Kolhapuri jaggery, ginger & subtle spices.",
-    price: 20,
-    category: "Chaha & Beverages",
-    tag: "Healthy Pick",
-  },
-  {
-    id: "lemon-black-tea",
-    name: "Fresh Lemon Ginger Black Tea",
-    marathiName: "लिंबू कोरा चहा",
-    description:
-      "Refreshing brisk black tea infused with fresh lime juice and grated ginger.",
-    price: 20,
-    category: "Chaha & Beverages",
-  },
-  {
-    id: "classic-filter-coffee",
-    name: "Hot Filter Coffee",
-    marathiName: "फिल्टर कॉफी",
-    description:
-      "Rich frothy decoction brewed fresh and poured hot in classic café style.",
+      "Rich, frothy hot café-style coffee brewed fresh to kickstart your morning or evening break.",
     price: 30,
-    category: "Chaha & Beverages",
+    category: "Chaha & Coffee",
     tag: "Fresh Brew",
   },
   {
-    id: "pune-cold-coffee",
-    name: "Thick Pune Cold Coffee",
+    id: "black-tea",
+    name: "Black Tea",
+    marathiName: "ब्लॅक टी",
+    description:
+      "Light, brisk & refreshing hot black tea without milk.",
+    price: 15,
+    category: "Chaha & Coffee",
+  },
+  {
+    id: "black-coffee",
+    name: "Black Coffee",
+    marathiName: "ब्लॅक कॉफी",
+    description:
+      "Bold, aromatic hot black coffee for pure coffee lovers.",
+    price: 30,
+    category: "Chaha & Coffee",
+  },
+  {
+    id: "cold-coffee",
+    name: "Cold Coffee",
     marathiName: "कोल्ड कॉफी",
     description:
-      "Chilled, thick & creamy café-style cold coffee blended to perfection.",
-    price: 60,
-    category: "Chaha & Beverages",
+      "Chilled, thick & creamy Pune-style cold coffee blended smooth.",
+    price: 40,
+    category: "Chaha & Coffee",
+    bestseller: true,
+    tag: "Chilled Hit",
+  },
+  {
+    id: "sugar-free-chaha",
+    name: "Chaha (Sugar-Free)",
+    marathiName: "चहा (बिनसाखरेचा)",
+    description:
+      "Our same full-bodied Paygude Bandhu chaha brewed freshly with zero added sugar.",
+    price: 30,
+    category: "Chaha & Coffee",
+    tag: "No Sugar",
   },
 
-  // Morning Breakfast
+  // 2. Breakfast & Snacks (नाश्ता आणि स्नॅक्स)
   {
-    id: "kanda-pohe",
-    name: "Kanda Pohe",
-    marathiName: "कांदा पोहे",
-    description:
-      "Fluffy turmeric-kissed flattened rice tempered with mustard seeds, curry leaves, roasted peanuts, sev & fresh lemon.",
-    price: 30,
-    category: "Morning Breakfast",
-    image: "/images/food-pohe.png",
-    bestseller: true,
-    tag: "Bestseller",
-    spicyLevel: "Mild",
-  },
-  {
-    id: "tarri-pohe",
-    name: "Spicy Tarri Pohe",
-    marathiName: "तर्री पोहे",
-    description:
-      "Classic Kanda Pohe crowned with piping hot spicy Maharashtrian chana tarri and crispy farsan.",
-    price: 40,
-    category: "Morning Breakfast",
-    image: "/images/food-pohe.png",
-    spicyLevel: "Spicy",
-  },
-  {
-    id: "bun-maska",
-    name: "Pune Bun Maska",
-    marathiName: "बन मस्का",
-    description:
-      "Warm toasted sweet bakery bun generously layered with whipped creamy butter — made to dip in cutting chaha.",
-    price: 30,
-    category: "Morning Breakfast",
-    image: "/images/food-bun-maska.png",
-    bestseller: true,
-    tag: "Chai Partner",
-  },
-  {
-    id: "rava-upma",
-    name: "Ghee Rava Upma",
-    marathiName: "रवा उपमा",
-    description:
-      "Aromatic roasted semolina cooked with pure ghee, cashews, green chilies & fresh grated coconut.",
-    price: 35,
-    category: "Morning Breakfast",
-    spicyLevel: "Mild",
-  },
-  {
-    id: "pineapple-sheera",
-    name: "Pure Ghee Sheera",
-    marathiName: "शुद्ध तूप शिरा",
-    description:
-      "Melt-in-the-mouth warm semolina halwa enriched with cardamom, raisins, cashews & pure cow ghee.",
-    price: 40,
-    category: "Morning Breakfast",
-  },
-
-  // Maharashtrian Snacks
-  {
-    id: "classic-vada-pav",
-    name: "Pune Special Vada Pav",
+    id: "vada-pav",
+    name: "Vada Pav",
     marathiName: "वडा पाव",
     description:
-      "Crispy golden besan-coated spiced potato vada tucked inside soft ladi pav with fiery dry garlic chutney & fried chili.",
+      "Golden crispy batata vada inside soft ladi pav, served with dry red garlic chutney & fried green chilies.",
     price: 20,
-    category: "Maharashtrian Snacks",
-    image: "/images/food-vadapav.png",
+    category: "Breakfast & Snacks",
+    image: "/images/items/vada-pav.webp",
+    imageStyle: "photo",
     bestseller: true,
     tag: "All-Time Favourite",
     spicyLevel: "Medium",
   },
   {
-    id: "pune-misal-pav",
-    name: "Paygude Special Misal Pav",
-    marathiName: "मिसळ पाव",
+    id: "patties",
+    name: "Bread Patties",
+    marathiName: "पॅटिस",
     description:
-      "Authentic Pune sprouted matki usal topped with aromatic red kat, crunchy farsan, raw onion, coriander & 2 buttered pavs.",
-    price: 85,
-    category: "Maharashtrian Snacks",
-    image: "/images/food-misal.png",
+      "Crispy golden Maharashtrian spiced potato stuffed bread patties served piping hot.",
+    price: 20,
+    category: "Breakfast & Snacks",
+    spicyLevel: "Mild",
+  },
+  {
+    id: "misal",
+    name: "Misal Pav",
+    marathiName: "मिसळ",
+    description:
+      "Authentic Pune sprouted matki misal topped with crunchy farsan, served with spicy red tarri, onion, lemon & soft pav.",
+    price: 65,
+    category: "Breakfast & Snacks",
+    image: "/images/items/misal-pav.webp",
+    imageStyle: "photo",
     bestseller: true,
     tag: "Pune Favourite",
     spicyLevel: "Spicy",
   },
   {
-    id: "sabudana-vada",
-    name: "Crispy Sabudana Vada",
-    marathiName: "साबुदाणा वडा",
+    id: "pav-jodi-misal",
+    name: "Pav Jodi (Misal)",
+    marathiName: "पाव जोडी (मिसळ)",
+    description: "Pair of fresh soft bakery ladi pavs to enjoy with Misal.",
+    price: 10,
+    category: "Breakfast & Snacks",
+  },
+  {
+    id: "pohe",
+    name: "Pohe",
+    marathiName: "पोहे",
     description:
-      "Golden puffed tapioca & roasted peanut fritters served piping hot with cool sweet curd-peanut chutney.",
-    price: 50,
-    category: "Maharashtrian Snacks",
-    image: "/images/food-sabudana-vada.png",
-    tag: "Upvas Special",
+      "Fluffy turmeric-kissed Kanda Pohe garnished with sev, grated coconut, coriander, lemon & optional spicy sample.",
+    price: 25,
+    category: "Breakfast & Snacks",
+    image: "/images/items/pohe.webp",
+    imageStyle: "photo",
+    bestseller: true,
+    tag: "Morning Classic",
     spicyLevel: "Mild",
   },
   {
-    id: "kanda-bhaji",
-    name: "Crispy Kanda Bhaji",
-    marathiName: "खेकडा कांदा भजी",
+    id: "upma",
+    name: "Upma",
+    marathiName: "उपमा",
     description:
-      "Crunchy spiced onion fritters fried fresh to order — the ultimate companion for Pune rains & hot chaha.",
+      "Warm, comforting roasted rava upma topped with crisp sev, grated fresh coconut, coriander & lemon wedge.",
+    price: 25,
+    category: "Breakfast & Snacks",
+    image: "/images/items/upma.webp",
+    imageStyle: "photo",
+    bestseller: true,
+    tag: "Fresh Breakfast",
+    spicyLevel: "Mild",
+  },
+  {
+    id: "sheera",
+    name: "Sheera",
+    marathiName: "शिरा",
+    description:
+      "Soft, rich Maharashtrian rava sheera cooked in pure ghee with aromatic cardamom.",
     price: 40,
-    category: "Maharashtrian Snacks",
-    spicyLevel: "Medium",
+    category: "Breakfast & Snacks",
+    tag: "Sweet Classic",
   },
   {
-    id: "kothimbir-vadi",
-    name: "Kothimbir Vadi",
-    marathiName: "कोथिंबीर वडी",
+    id: "upma-sheera-mix",
+    name: "Upma / Sheera Mix",
+    marathiName: "उपमा / शिरा मिक्स",
     description:
-      "Traditional steamed and crisply pan-fried coriander & gram flour squares served with green chutney.",
-    price: 50,
-    category: "Maharashtrian Snacks",
-    spicyLevel: "Mild",
+      "Classic Pune sweet-and-savoury breakfast combo plate — half hot Upma & half warm Sheera.",
+    price: 40,
+    category: "Breakfast & Snacks",
+    tag: "Punekar Combo",
+  },
+  {
+    id: "pohe-sheera-mix",
+    name: "Pohe / Sheera Mix",
+    marathiName: "पोहे / शिरा मिक्स",
+    description:
+      "Favourite Maharashtrian morning pairing — half Kanda Pohe paired with half sweet Sheera.",
+    price: 40,
+    category: "Breakfast & Snacks",
+  },
+  {
+    id: "pohe-upma-mix",
+    name: "Pohe / Upma Mix",
+    marathiName: "पोहे / उपमा मिक्स",
+    description:
+      "Best of both breakfasts on one plate — fluffy Kanda Pohe & hot Rava Upma together.",
+    price: 30,
+    category: "Breakfast & Snacks",
+    tag: "Value Mix",
   },
   {
     id: "sabudana-khichdi",
     name: "Sabudana Khichdi",
     marathiName: "साबुदाणा खिचडी",
     description:
-      "Light, non-sticky soaked sago pearls tossed in ghee with crushed roasted peanuts, jeera & green chilies.",
-    price: 55,
-    category: "Maharashtrian Snacks",
+      "Light, non-sticky sago pearls tossed in ghee with roasted crushed peanuts, jeera & green chilies.",
+    price: 60,
+    category: "Breakfast & Snacks",
+    tag: "Upvas Special",
     spicyLevel: "Mild",
   },
 
-  // South Indian
+  // 3. Idli & Vada (घी इडली आणि वडा)
   {
-    id: "ghee-idli",
-    name: "Ghee Idli",
-    marathiName: "तूप इडली",
+    id: "ghee-idli-sambar",
+    name: "Ghee Idli Sambar",
+    marathiName: "घी इडली सांबर",
     description:
-      "Three cloud-soft steamed idlis drizzled with aromatic melted pure ghee, served with fresh coconut chutney & hot sambar.",
-    price: 50,
-    category: "South Indian",
-    image: "/images/food-ghee-idli.png",
+      "Cloud-soft steamed idli drizzled with pure melted ghee, dipped in piping hot tangy sambar & chutney.",
+    price: 15,
+    category: "Idli & Vada",
+    image: "/images/items/ghee-idli-sambar.webp",
+    imageStyle: "photo",
     bestseller: true,
-    tag: "Bestseller",
+    tag: "Signature ₹15",
     spicyLevel: "Mild",
   },
   {
+    id: "ghee-podi-idli",
+    name: "Ghee Podi Idli",
+    marathiName: "घी पोडी इडली",
+    description:
+      "Fluffy idli coated generously with roasted South Indian podi spice & pure golden ghee.",
+    price: 20,
+    category: "Idli & Vada",
+    image: "/images/items/ghee-podi-idli.webp",
+    imageStyle: "photo",
+    bestseller: true,
+    tag: "Must Try",
+    spicyLevel: "Medium",
+  },
+  {
+    id: "idli-meduvada-sambar",
+    name: "Idli Medu Vada Sambar",
+    marathiName: "इडली मेदु वडा सांबर",
+    description:
+      "Wholesome plate pairing soft Ghee Idli and crispy Medu Vada with steaming hot sambar & coconut chutney.",
+    price: 45,
+    category: "Idli & Vada",
+    tag: "Popular Combo",
+  },
+  {
+    id: "ghee-thatte-idli-sambar",
+    name: "Ghee Thatte Idli Sambar",
+    marathiName: "घी तट्टे इडली सांबर",
+    description:
+      "Large plate-sized Karnataka-style fluffy Thatte Idli finished with pure ghee & served with hot sambar.",
+    price: 40,
+    category: "Idli & Vada",
+    image: "/images/items/ghee-podi-idli.webp",
+    imageStyle: "photo",
+    bestseller: true,
+    tag: "Thatte Special",
+  },
+  {
+    id: "ghee-thatte-idli-chutney",
+    name: "Ghee Thatte Idli Chutney",
+    marathiName: "घी तट्टे इडली चटणी",
+    description:
+      "Large soft ghee-glazed Thatte Idli served with freshly ground coconut chutney.",
+    price: 40,
+    category: "Idli & Vada",
+  },
+  {
+    id: "meduvada-sambar",
+    name: "Meduvada Sambar",
+    marathiName: "मेदुवडा सांबर",
+    description:
+      "Two golden crisp urad dal medu vadas — crunchy outside, fluffy inside — served with hot sambar & chutney.",
+    price: 60,
+    category: "Idli & Vada",
+    bestseller: true,
+  },
+  {
+    id: "meduvada-chutney",
+    name: "Meduvada Chutney",
+    marathiName: "मेदुवडा चटणी",
+    description:
+      "Two piping hot crispy medu vadas paired with fresh coconut chutney.",
+    price: 60,
+    category: "Idli & Vada",
+  },
+  {
+    id: "single-meduvada-sambar",
+    name: "Single Meduvada Sambar",
+    marathiName: "सिंगल मेदुवडा सांबर",
+    description:
+      "Single crisp urad dal medu vada served with hot sambar & chutney.",
+    price: 30,
+    category: "Idli & Vada",
+  },
+  {
+    id: "mix-vada-sambar",
+    name: "Mix Vada Sambar",
+    marathiName: "मिक्स वडा सांबर",
+    description:
+      "1 Crispy Medu Vada + 1 Spiced Batata Vada served together with steaming sambar.",
+    price: 60,
+    category: "Idli & Vada",
+  },
+  {
+    id: "batata-vada-sambar",
+    name: "Batata Vada Sambar",
+    marathiName: "बटाटा वडा सांबर",
+    description:
+      "Two Maharashtrian spiced potato vadas dipped in flavourful hot sambar.",
+    price: 60,
+    category: "Idli & Vada",
+    spicyLevel: "Medium",
+  },
+  {
+    id: "single-batata-vada-sambar",
+    name: "Single Batatavada Sambar",
+    marathiName: "सिंगल बटाटावडा सांबर",
+    description: "One crispy hot batata vada served with steaming sambar.",
+    price: 30,
+    category: "Idli & Vada",
+    spicyLevel: "Medium",
+  },
+  {
+    id: "batata-vada-sample",
+    name: "Batata Vada Sample",
+    marathiName: "बटाटा वडा सँपल",
+    description:
+      "Two spiced batata vadas served Pune-style with fiery, aromatic kat/sample.",
+    price: 60,
+    category: "Idli & Vada",
+    tag: "Pune Style",
+    spicyLevel: "Spicy",
+  },
+  {
+    id: "single-batata-vada-sample",
+    name: "Single Batatavada Sample",
+    marathiName: "सिंगल बटाटावडा सँपल",
+    description: "One hot batata vada served with spicy Pune sample.",
+    price: 30,
+    category: "Idli & Vada",
+    spicyLevel: "Spicy",
+  },
+
+  // 4. Dosa & Uttappa (डोसा आणि उत्तप्पा)
+  {
+    id: "plain-dosa",
+    name: "Plain Dosa",
+    marathiName: "प्लेन डोसा",
+    description:
+      "Thin, golden crispy roasted plain dosa served with fresh coconut chutney & piping hot sambar.",
+    price: 50,
+    category: "Dosa & Uttappa",
+  },
+  {
     id: "masala-dosa",
-    name: "Crispy Masala Dosa",
+    name: "Masala Dosa",
     marathiName: "मसाला डोसा",
     description:
-      "Golden crisp fermented rice crepe stuffed with comforting spiced potato bhaji, served with sambar & chutneys.",
+      "Golden crispy dosa served with comforting spiced potato bhaji, fresh coconut chutney & hot sambar.",
     price: 75,
-    category: "South Indian",
-    image: "/images/food-masala-dosa.png",
+    category: "Dosa & Uttappa",
+    image: "/images/items/masala-dosa.webp",
+    imageStyle: "photo",
+    bestseller: true,
+    tag: "Tawa Favourite",
+    spicyLevel: "Mild",
+  },
+  {
+    id: "cut-dosa",
+    name: "Cut Dosa",
+    marathiName: "कट डोसा",
+    description:
+      "Bite-sized crisp masala dosa rolls garnished with fine sev, diced tomatoes & coriander around chutney & sambar.",
+    price: 90,
+    category: "Dosa & Uttappa",
+    image: "/images/items/cut-dosa.webp",
+    imageStyle: "photo",
+    bestseller: true,
+    tag: "Pune Special",
+    spicyLevel: "Medium",
+  },
+  {
+    id: "podi-dosa",
+    name: "Podi Dosa",
+    marathiName: "पोडी डोसा",
+    description:
+      "Crisp ghee-roasted dosa generously dusted with fiery aromatic South Indian podi masala.",
+    price: 120,
+    category: "Dosa & Uttappa",
+    tag: "Ghee Podi Special",
+    spicyLevel: "Medium",
+  },
+  {
+    id: "tomato-onion-uttappa",
+    name: "Tomato Onion Uttappa",
+    marathiName: "टोमॅटो ओनियन उत्तप्पा",
+    description:
+      "Thick, soft-centred savoury dosa griddle-topped with juicy chopped tomatoes, sweet onions & herbs.",
+    price: 80,
+    category: "Dosa & Uttappa",
+    image: "/images/items/tomato-onion-uttappa.webp",
+    imageStyle: "photo",
     bestseller: true,
     tag: "Fresh on Tawa",
     spicyLevel: "Mild",
   },
-  {
-    id: "medu-vada",
-    name: "Crispy Medu Vada",
-    marathiName: "मेदू वडा",
-    description:
-      "Golden crunchy urad dal doughnuts — fluffy inside, crisp outside — paired with steaming sambar & coconut chutney.",
-    price: 55,
-    category: "South Indian",
-    spicyLevel: "Mild",
-  },
-  {
-    id: "idli-vada-mix",
-    name: "Idli Vada Sambar Combo",
-    marathiName: "इडली वडा मिक्स",
-    description:
-      "Best of both worlds — 2 soft steamed idlis and 1 crispy medu vada served with fresh chutneys & sambar.",
-    price: 55,
-    category: "South Indian",
-    spicyLevel: "Mild",
-  },
 
-  // Special Combos
+  // 5. Pav Bhaji & Extras (पाव भाजी आणि एक्स्ट्रा)
   {
-    id: "combo-vadapav-chaha",
-    name: "Punekar Vada Pav + Chaha Combo",
-    marathiName: "वडा पाव + कटिंग चहा",
+    id: "pav-bhaji",
+    name: "Pav Bhaji",
+    marathiName: "पाव भाजी",
     description:
-      "Our iconic duo: 1 piping hot Pune Vada Pav paired with 1 Signature Cutting Chaha.",
-    price: 32,
-    category: "Special Combos",
-    image: "/images/hero-chai-vadapav.png",
+      "Rich, buttery slow-mashed mixed vegetable bhaji served sizzling hot with butter-toasted pav jodi, onion & lemon.",
+    price: 120,
+    category: "Pav Bhaji & Extras",
     bestseller: true,
-    tag: "Value Combo",
+    tag: "Special",
+    spicyLevel: "Medium",
   },
   {
-    id: "combo-pohe-chaha",
-    name: "Morning Pohe + Chaha Combo",
-    marathiName: "कांदा पोहे + चहा",
-    description:
-      "Start your Pune morning right with a full plate of Kanda Pohe and hot Adrak Elaichi Chaha.",
-    price: 42,
-    category: "Special Combos",
-    image: "/images/food-pohe.png",
-    tag: "Morning Special",
+    id: "pav-jodi-pavbhaji",
+    name: "Pav Jodi (Pav Bhaji)",
+    marathiName: "पाव जोडी (पाव भाजी)",
+    description: "Pair of extra butter-toasted pavs for Pav Bhaji.",
+    price: 20,
+    category: "Pav Bhaji & Extras",
   },
   {
-    id: "combo-bunmaska-chaha",
-    name: "Evening Bun Maska + Chaha",
-    marathiName: "बन मस्का + स्पेशल चहा",
-    description:
-      "Toasted buttery Bun Maska paired with strong freshly brewed cutting chai.",
-    price: 42,
-    category: "Special Combos",
-    image: "/images/food-bun-maska.png",
-    tag: "Evening Favourite",
+    id: "extra-sambar",
+    name: "Extra Sambar",
+    marathiName: "एक्स्ट्रा सांबर",
+    description: "Additional piping hot bowl of our signature vegetable sambar.",
+    price: 15,
+    category: "Pav Bhaji & Extras",
   },
   {
-    id: "combo-misal-feast",
-    name: "Weekend Misal + Chaha Feast",
-    marathiName: "मिसळ पाव + चहा",
-    description:
-      "Full Paygude Special Misal Pav followed by a soothing cup of Signature Cutting Chaha.",
-    price: 95,
-    category: "Special Combos",
-    image: "/images/food-misal.png",
-    tag: "Weekend Hit",
+    id: "extra-sample",
+    name: "Extra Sample",
+    marathiName: "एक्स्ट्रा सँपल",
+    description: "Additional katori of spicy Pune misal sample / tarri.",
+    price: 20,
+    category: "Pav Bhaji & Extras",
+    spicyLevel: "Spicy",
+  },
+  {
+    id: "extra-chutney",
+    name: "Extra Chutney",
+    marathiName: "एक्स्ट्रा चटणी",
+    description: "Additional katori of freshly ground coconut chutney.",
+    price: 15,
+    category: "Pav Bhaji & Extras",
+  },
+];
+
+/**
+ * Real photoshoot images from Paygude Bandhu's kitchen
+ */
+export const KITCHEN_GALLERY: KitchenPhoto[] = [
+  {
+    id: "gallery-misal",
+    title: "Pune Special Misal",
+    marathiTitle: "मिसळ पाव",
+    subtitle: "Served with fiery tarri, farsan, onion & soft pav",
+    image: "/images/items/misal-pav.webp",
+    category: "Breakfast & Snacks",
+  },
+  {
+    id: "gallery-podi-idli",
+    title: "Ghee Podi Thatte Idli",
+    marathiTitle: "घी पोडी तट्टे इडली",
+    subtitle: "Fluffy plate-sized idli drenched in pure ghee & podi",
+    image: "/images/items/ghee-podi-idli.webp",
+    category: "Idli & Vada",
+  },
+  {
+    id: "gallery-cut-dosa",
+    title: "Signature Cut Dosa",
+    marathiTitle: "कट डोसा",
+    subtitle: "Crisp masala rolls topped with sev, tomato & coriander",
+    image: "/images/items/cut-dosa.webp",
+    category: "Dosa & Uttappa",
+  },
+  {
+    id: "gallery-pohe",
+    title: "Kanda Pohe with Sample",
+    marathiTitle: "पोहे",
+    subtitle: "Steaming Pune pohe with sev, coconut, lemon & tarri",
+    image: "/images/items/pohe.webp",
+    category: "Breakfast & Snacks",
+  },
+  {
+    id: "gallery-ghee-idli",
+    title: "Ghee Idli Sambar",
+    marathiTitle: "घी इडली सांबर",
+    subtitle: "Soft idlis dipped in hot sambar & fresh chutney",
+    image: "/images/items/ghee-idli-sambar.webp",
+    category: "Idli & Vada",
+  },
+  {
+    id: "gallery-vadapav",
+    title: "Classic Pune Vada Pav",
+    marathiTitle: "वडा पाव",
+    subtitle: "Hot batata vada with dry red garlic chutney & green chili",
+    image: "/images/items/vada-pav.webp",
+    category: "Breakfast & Snacks",
+  },
+  {
+    id: "gallery-masala-dosa",
+    title: "Crispy Masala Dosa",
+    marathiTitle: "मसाला डोसा",
+    subtitle: "Golden dosa with spiced potato bhaji, chutney & sambar",
+    image: "/images/items/masala-dosa.webp",
+    category: "Dosa & Uttappa",
+  },
+  {
+    id: "gallery-uttappa",
+    title: "Tomato Onion Uttappa",
+    marathiTitle: "टोमॅटो ओनियन उत्तप्पा",
+    subtitle: "Griddle-cooked soft uttappa loaded with tomato & onion",
+    image: "/images/items/tomato-onion-uttappa.webp",
+    category: "Dosa & Uttappa",
+  },
+  {
+    id: "gallery-upma",
+    title: "Hot Rava Upma",
+    marathiTitle: "उपमा",
+    subtitle: "Comforting morning upma finished with sev & coconut",
+    image: "/images/items/upma.webp",
+    category: "Breakfast & Snacks",
+  },
+  {
+    id: "gallery-dal-khichdi",
+    title: "Comfort Dal Khichdi",
+    marathiTitle: "डाळ खिचडी",
+    subtitle: "Homestyle yellow khichdi served with roasted papad & pickle",
+    image: "/images/items/dal-khichdi.webp",
+    category: "Kitchen Special",
   },
 ];
 
@@ -565,7 +832,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "snehal",
     quote:
-      "Whether it is a 7 AM Kanda Pohe stop at Karvenagar or evening cutting chai near Abhiruchi Mall, the taste and hygiene are consistently spotless every single time.",
+      "Whether it is a 7 AM Pohe & Upma stop at Karvenagar or evening Ghee Podi Idli near Abhiruchi Mall, the taste and hygiene are consistently spotless every single time.",
     author: "Snehal Kulkarni",
     location: "Karvenagar, Pune",
     rating: 5,
@@ -575,7 +842,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "prasad",
     quote:
-      "Their Ghee Idli and Special Adrak Chaha are unmatched in Pune. Super quick service, clean open kitchen, and such warm, welcoming staff!",
+      "Their ₹15 Ghee Idli Sambar and Cut Dosa are unmatched in Pune. Super quick service, clean open kitchen, and such warm, welcoming staff!",
     author: "Prasad Joshi",
     location: "Bibwewadi, Pune",
     rating: 5,
@@ -585,7 +852,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "aditi",
     quote:
-      "Our college gang's favourite spot near Bharati Vidyapeeth! Pocket-friendly prices, authentic Maharashtrian snacks, and a cozy vibe for long conversations.",
+      "Our college gang's favourite spot near Bharati Vidyapeeth! Pocket-friendly prices, authentic Misal & Cold Coffee, and a cozy vibe for long conversations.",
     author: "Aditi Patwardhan",
     location: "Katraj, Pune",
     rating: 5,
@@ -602,7 +869,7 @@ export const FRANCHISE_MODELS = [
     setupTime: "25 – 30 Days",
     highlights: [
       "Compact high-efficiency kitchen layout",
-      "Core Chaha, Vada Pav, Pohe & Bun Maska menu",
+      "Core Chaha, Vada Pav, Pohe, Upma & Ghee Idli menu",
       "Low staffing requirement (2–3 team members)",
       "Fast takeaway turnaround & high daily volume",
     ],
@@ -614,7 +881,7 @@ export const FRANCHISE_MODELS = [
     setupTime: "35 – 45 Days",
     highlights: [
       "Warm modern Paygude Bandhu dine-in café ambience",
-      "Full menu including Misal Pav, Ghee Idli, Dosas & Combos",
+      "Full 40-item menu including Cut Dosa, Podi Thatte Idli, Misal & Pav Bhaji",
       "Dedicated family & friends seating experience",
       "Complete store branding, launch marketing & POS setup",
     ],
@@ -624,11 +891,15 @@ export const FRANCHISE_MODELS = [
 export const FAQS = [
   {
     q: "Are all Paygude Bandhu outlets 100% Pure Vegetarian?",
-    a: "Yes! Every Paygude Bandhu kitchen across all 10 Pune branches is 100% Pure Vegetarian, maintaining strict hygiene and separate fresh-prep standards.",
+    a: "Yes! Every Paygude Bandhu kitchen across all 10 Pune branches is 100% Pure Vegetarian, maintaining strict hygiene and fresh-prep standards.",
   },
   {
     q: "What are the daily opening hours of your branches?",
     a: "Most of our Pune branches open bright and early at 6:30 AM for morning chaha & breakfast and stay open until 10:30 PM (11:00 PM at Deccan & Bharati Vidyapeeth).",
+  },
+  {
+    q: "Do all branches share the same menu?",
+    a: "Our core 40-item Chaha, Pohe, Upma, Vada Pav, Misal, Ghee Idli, Thatte Idli, Meduvada, Cut Dosa, Uttappa & Pav Bhaji menu is standardized across our outlets including Abhiruchi Mall Samor and Shastri Road.",
   },
   {
     q: "How can I participate in the Dubai Lucky Draw?",
@@ -636,10 +907,6 @@ export const FAQS = [
   },
   {
     q: "Do you accept bulk or corporate breakfast & snack orders?",
-    a: "Absolutely! We cater freshly packed Vada Pav, Pohe, Ghee Idli, Sabudana Vada, and tea flasks for office events, college fests, and family gatherings across Pune. Call +91 87678 12345 or use our Contact form.",
-  },
-  {
-    q: "How do I apply for a Paygude Bandhu Franchise?",
-    a: "Visit our Franchise page and submit your enquiry with your preferred city/area and available space. Our franchise team will connect with you within 24 hours.",
+    a: "Absolutely! We cater freshly packed Vada Pav, Pohe, Ghee Idli, Cut Dosa, and tea flasks for office events, college fests, and family gatherings across Pune. Call +91 87678 12345 or use our Contact form.",
   },
 ] as const;

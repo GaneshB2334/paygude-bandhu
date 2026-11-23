@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { MapPin, ArrowRight } from "lucide-react";
-import { BRAND } from "@/lib/data";
+import { MapPin, ArrowRight, Camera } from "lucide-react";
+import { BRAND, FULL_MENU, KITCHEN_GALLERY } from "@/lib/data";
 import { MenuExplorer } from "@/components/MenuExplorer";
 import { DubaiLuckyDrawBanner } from "@/components/DubaiLuckyDrawBanner";
 import { FranchiseBanner } from "@/components/FranchiseBanner";
 
 export const metadata: Metadata = {
-  title: "Full Menu — Chaha, Breakfast & Maharashtrian Snacks",
+  title: "Full Menu & Official Rate Card — Chaha, Idli, Dosa & Snacks",
   description:
-    "Explore Paygude Bandhu's 100% Pure Vegetarian menu — Cutting Chaha, Kanda Pohe, Pune Vada Pav, Ghee Idli, Misal Pav, Sabudana Vada, Bun Maska, Masala Dosa & value combos.",
+    "Explore Paygude Bandhu's complete 40-item Pure Vegetarian menu & official Pune rate card — Chaha ₹15, Ghee Idli Sambar ₹15, Vada Pav ₹20, Pohe ₹25, Upma ₹25, Misal ₹65, Masala Dosa ₹75, Cut Dosa ₹90 & Pav Bhaji ₹120.",
 };
 
 export default function MenuPage() {
@@ -21,7 +22,8 @@ export default function MenuPage() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-4 max-w-2xl">
               <div className="inline-flex items-center gap-2 rounded-full bg-[#FEF08A] px-3.5 py-1 text-xs font-extrabold text-[#111111]">
-                Freshly Prepared All Day • 6:30 AM – 10:30 PM
+                {FULL_MENU.length} Fresh Items • Official Pune Rate Card • 6:30
+                AM – 10:30 PM
               </div>
               <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-[#111111] leading-[1.08]">
                 Our Signature{" "}
@@ -33,9 +35,10 @@ export default function MenuPage() {
                 </span>
               </div>
               <p className="text-sm sm:text-base text-stone-600 leading-relaxed max-w-xl">
-                Every cup of cutting chaha is freshly brewed and every vada,
-                pohe, and ghee idli is served piping hot with consistent taste
-                across all 10 Paygude Bandhu outlets in Pune.
+                From ₹15 Signature Chaha &amp; Ghee Idli Sambar to crispy Cut
+                Dosa, Ghee Podi Thatte Idli, Pune Misal, Pohe &amp; sizzling Pav
+                Bhaji — browse our visual menu or switch to the official
+                black-and-gold Rate Card view.
               </p>
             </div>
 
@@ -51,8 +54,52 @@ export default function MenuPage() {
         </div>
       </section>
 
-      {/* INTERACTIVE FILTERABLE MENU */}
+      {/* INTERACTIVE FILTERABLE MENU & OFFICIAL RATE CARD BOARD */}
       <MenuExplorer />
+
+      {/* REAL KITCHEN PHOTOSHOOT GALLERY */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-7">
+          <div>
+            <p className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-700 mb-1.5">
+              <Camera className="w-3.5 h-3.5" />
+              Real Dishes From Our Kitchen
+            </p>
+            <h2 className="section-heading text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">
+              Freshly Served Every Day
+            </h2>
+          </div>
+          <p className="text-xs sm:text-sm text-stone-500 font-medium max-w-xs">
+            Authentic Maharashtrian &amp; South Indian plates served piping hot
+            across Pune.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {KITCHEN_GALLERY.map((photo) => (
+            <figure
+              key={photo.id}
+              className="group relative overflow-hidden rounded-2xl bg-[#181715] aspect-[4/5] shadow-sm border border-stone-200/80"
+            >
+              <Image
+                src={photo.image}
+                alt={`${photo.title} — ${photo.marathiTitle}`}
+                fill
+                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 220px"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-3.5 pt-10 text-white">
+                <p className="text-xs font-bold text-[#FACC15] font-[family-name:var(--font-devanagari)] leading-tight">
+                  {photo.marathiTitle}
+                </p>
+                <p className="text-sm font-extrabold leading-snug mt-0.5">
+                  {photo.title}
+                </p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
 
       {/* DUBAI LUCKY DRAW PROMO */}
       <DubaiLuckyDrawBanner />
