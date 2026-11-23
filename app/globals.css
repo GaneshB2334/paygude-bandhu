@@ -56,7 +56,8 @@ body {
 /* Short golden underline beneath section headings */
 .section-heading {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: fit-content;
   padding-bottom: 0.55rem;
 }
 

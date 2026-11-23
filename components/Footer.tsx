@@ -140,7 +140,10 @@ export function Footer() {
             About Us
           </Link>
           <Link href="/menu" className="hover:text-[#FACC15] transition-colors">
-            Full Menu
+            Rate Card
+          </Link>
+          <Link href="/gallery" className="hover:text-[#FACC15] transition-colors">
+            Food Gallery
           </Link>
           <Link href="/branches" className="hover:text-[#FACC15] transition-colors">
             10 Branches in Pune

@@ -162,10 +162,10 @@ export default function HomePage() {
             </h2>
           </div>
           <Link
-            href="/menu"
+            href="/gallery"
             className="inline-flex items-center gap-1.5 text-sm sm:text-[15px] font-bold text-[#181715] hover:text-amber-600 transition-colors"
           >
-            <span>See Official Rate Card</span>
+            <span>View Full Gallery</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -174,7 +174,7 @@ export default function HomePage() {
           {HOME_KITCHEN_SPOTLIGHT.map((dish) => (
             <Link
               key={dish.id}
-              href="/menu"
+              href="/gallery"
               className="group relative overflow-hidden rounded-2xl bg-[#181715] aspect-[4/5] shadow-xs border border-stone-200/70"
             >
               <Image
